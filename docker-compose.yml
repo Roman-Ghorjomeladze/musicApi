@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  api:
+    container_name: music_api
+    build: 
+      context: .
+      target: dev
+    env_file:
+      - .env
+    volumes:
+      - ./:/app
+    ports:
+      - 3000:3000
+    depends_on:
+      - pg_db
+    command: npm run preparestart
+  pg_db:
+    image: postgres:latest
+    container_name: music_api_db
+    environment:
+      POSTGRES_DB: music-db
+      POSTGRES_USER: music
+      POSTGRES_PASSWORD: musicpwd
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_db:/var/lib/postgresql/data
+volumes:
+  pg_db:

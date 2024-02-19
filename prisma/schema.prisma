@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  username String @db.VarChar(70) @unique
+  password String @db.VarChar(70)
+  name String @db.VarChar(255)
+  favoriteSongs FavoriteSongs[]
+  searches SearchHistory[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SearchHistory {
+  id Int @id @default(autoincrement())
+  search String
+  userId Int 
+  count Int
+  user User @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model FavoriteSongs {
+  id Int @id @default(autoincrement())
+  userId Int
+  deezerId Int
+  user User @relation(fields: [userId], references: [id])
+  name String @db.Text
+  link String @db.Text
+  preview String @db.Text
+  artist Json @db.JsonB
+  album Json @db.JsonB
+}

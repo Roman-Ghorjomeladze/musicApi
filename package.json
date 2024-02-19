@@ -1,0 +1,68 @@
+{
+  "name": "music-api",
+  "version": "1.0.0",
+  "description": "Service to store and retrieve songs",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon",
+    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register ./dist/src/server.js",
+    "build": "rimraf ./dist && tsc",
+    "test": "jest",
+    "test:watch": "jest --watchAll",
+    "coverage": "jest --coverage",
+    "db:migrate": "npx prisma migrate dev --preview-feature",
+    "generate": "npx prisma generate",
+    "preparestart": "npm run build && npm run db:migrate && npm run start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Roman-Ghorjomeladze/musicApi.git"
+  },
+  "keywords": [
+    "NodeJS",
+    "ExpressJS",
+    "TypeScript",
+    "Prisma",
+    "Docker",
+    "PostgreSQL",
+    "Jest"
+  ],
+  "author": "Roman Ghorjomeladze",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Roman-Ghorjomeladze/musicApi/issues"
+  },
+  "homepage": "https://github.com/Roman-Ghorjomeladze/musicApi#readme",
+  "devDependencies": {
+    "@prisma/client": "^5.9.1",
+    "@types/axios": "^0.14.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/node": "^20.11.17",
+    "@types/supertest": "^6.0.2",
+    "@types/swagger-ui-express": "^4.1.6",
+    "@types/yamljs": "^0.2.34",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.3",
+    "prisma": "^5.9.1",
+    "rimraf": "^5.0.5",
+    "supertest": "^6.3.4",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "axios": "^1.6.7",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.2",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "node-gyp": "^10.0.1",
+    "swagger-ui-express": "^5.0.0",
+    "yamljs": "^0.3.0"
+  }
+}

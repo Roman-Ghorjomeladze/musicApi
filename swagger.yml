@@ -1,0 +1,288 @@
+openapi: 3.0.0
+info:
+  title: Song API
+  version: 1.0.0
+paths:
+  /auth/login:
+    post:
+      summary: Log in user
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthLogInSchema'
+      responses:
+        '200':
+          description: Authorisation successfull
+        '400':
+          description: Bad request
+        '401':
+          description: Not authorised
+        '404':
+          description: Not Found
+        '500':
+          description: Something went wrong
+  /auth/signup:
+    post:
+      summary: Sign up user
+      tags:
+        - Auth
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+            description: Id of the book
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthSignUpSchema'
+      responses:
+        '201':
+          description: User signed up successfully
+        '400':
+          description: Bad request
+        '500':
+          description: Something went wrong
+  /search:
+    get:
+      summary: Search songs on deezer api
+      tags:
+        - Search
+      parameters:
+        - in: query
+          name: q
+          description: Search query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Songs found successfully
+        '400':
+          description: Bad request
+        '401':
+          description: Not authorised
+        '404':
+          description: Not Found
+        '500':
+          description: Something went wrong
+  /search/history:
+    get:
+      summary: Get history of your searches
+      tags:
+        - Search
+      responses:
+        '200':
+          description: Histories found successfully
+        '400':
+          description: Bad request
+        '401':
+          description: Not authorised
+        '404':
+          description: Not Found
+        '500':
+          description: Something went wrong
+  /favorite:
+    get:
+      summary: Get favorite songs
+      tags:
+        - Favorite
+      responses:
+        '200':
+          description: Favorite songs successfully found
+        '400':
+          description: Bad request
+        '401':
+          description: Not authorised
+        '404':
+          description: Not Found
+        '500':
+          description: Something went wrong
+    post:
+      summary: Create favorite song
+      tags:
+        - Favorite
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFavoriteSchema'
+      responses:
+        '201':
+          description: Favorite song successfully created
+        '400':
+          description: Bad request
+        '401':
+          description: Not authorised
+        '404':
+          description: Not Found
+        '500':
+          description: Something went wrong
+  /favorite/{id}:
+    get:
+      summary: Get favorite song
+      tags:
+        - Favorite
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+            description: Id of the favorite song
+      responses:
+        '200':
+          description: Favorite song successfully found
+        '400':
+          description: Bad request
+        '401':
+          description: Not authorised
+        '404':
+          description: Not Found
+        '500':
+          description: Something went wrong
+    put:
+      summary: Update favorite song
+      tags:
+        - Favorite
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFavoriteSchema'
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+            description: Id of the favorite song
+      responses:
+        '200':
+          description: Favorite song successfully updated
+        '400':
+          description: Bad request
+        '401':
+          description: Not authorised
+        '404':
+          description: Not Found
+        '500':
+          description: Something went wrong
+    delete:
+      summary: Delete favorite song
+      tags:
+        - Favorite
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+            description: Id of the favorite song
+      responses:
+        '200':
+          description: Favorite song successfully deleted
+        '400':
+          description: Bad request
+        '401':
+          description: Not authorised
+        '404':
+          description: Not Found
+        '500':
+          description: Something went wrong
+
+        
+
+components:
+  schemas:
+    UpdateFavoriteSchema:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the favorite song
+        link:
+          type: string
+          description: The link of the resource at deezer.com
+        preview:
+          type: string
+          description: Preview mp3 file of the favorite song
+        artist:
+          type: object
+          properties:
+            id:
+              type: number
+              description: Id of the artist.
+            name:
+              type: string
+              description: Name of the artist.
+            image:
+              type: string
+              description: Author's primary image link.
+        album:
+          type: object
+          properties:
+            id:
+              type: number
+              description: Id of the album.
+            title:
+              type: string
+              description: Title of the album.
+            image:
+              type: string
+              description: Album's primary image link.
+      required:
+        - name
+        - link
+        - preview
+        - album
+        - artist
+    AuthLoginSchema:
+        type: object
+        properties:
+          username:
+            type: string
+            description: The username of the user
+          password:
+            type: string
+            description: The password of the user
+        required:
+          - username
+          - password
+    AuthSignUpSchema:
+        type: object
+        properties:
+          username:
+            type: string
+            description: The username of the user
+          password:
+            type: string
+            description: The password of the user
+          name:
+            type: string
+            description: The name of the user
+        required:
+          - username
+          - password
+          - name
+    CreateFavoriteSchema:
+        type: object
+        properties:
+          id:
+            type: number
+            description: The deezer song id
+        required:
+          - id
